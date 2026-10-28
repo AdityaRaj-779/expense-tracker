@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SpendWise - Personal Expense Tracker">
+    <title>SpendWise | Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <span class="logo-icon">₹</span>
+                <span>Spend<span class="logo-highlight">Wise</span></span>
+            </a>
+
+            <div class="header-actions">
+                <span class="header-subtitle">Your personal expense dashboard</span>
+                <button id="themeToggle" class="theme-toggle" type="button">
+                    🌙 Dark mode
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div>
+                <p class="eyebrow">PERSONAL FINANCE</p>
+                <h1>Take control of your spending.</h1>
+                <p class="hero-description">
+                    Record your expenses, understand where your money goes,
+                    and stay organized.
+                </p>
+            </div>
+
+            <span class="storage-badge">🔒 Saved in this browser</span>
+        </section>
+
+        <!-- Dashboard Summary -->
+        <section class="summary-grid" aria-label="Expense summary">
+
+            <article class="summary-card">
+                <p>Total spent</p>
+                <h2 id="totalSpent">₹0.00</h2>
+                <small>All recorded expenses</small>
+            </article>
+
+            <article class="summary-card">
+                <p>This month</p>
+                <h2 id="monthlySpent">₹0.00</h2>
+                <small id="currentMonth">Current month</small>
+            </article>
+
+            <article class="summary-card">
+                <p>Transactions</p>
+                <h2 id="transactionCount">0</h2>
+                <small>Expenses recorded</small>
+            </article>
+
+            <article class="summary-card">
+                <p>Top category</p>
+                <h2 id="topCategory">—</h2>
+                <small>Highest total spending</small>
+            </article>
+
+        </section>
+
+        <!-- Expense Form and Chart -->
+        <section class="dashboard-grid">
+
+            <article class="panel">
+                <p class="eyebrow">MANAGE SPENDING</p>
+                <h2 id="formHeading">Add an expense</h2>
+
+                <form id="expenseForm">
+
+                    <input type="hidden" id="expenseId">
+
+                    <div class="form-group">
+                        <label for="expenseTitle">Expense title</label>
+                        <input
+                            type="text"
+                            id="expenseTitle"
+                            placeholder="e.g. Grocery shopping"
+                            maxlength="60"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expenseAmount">Amount (₹)</label>
+                        <input
+                            type="number"
+                            id="expenseAmount"
+                            placeholder="e.g. 450"
+                            min="0.01"
+                            step="0.01"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expenseCategory">Category</label>
+                        <select id="expenseCategory" required>
+                            <option value="">Select a category</option>
+                            <option value="Food">Food</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Bills">Bills</option>
+                            <option value="Education">Education</option>
+                            <option value="Health">Health</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expenseDate">Date</label>
+                        <input type="date" id="expenseDate" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" id="saveExpenseBtn" class="btn btn-primary">
+                            Add expense
+                        </button>
+
+                        <button type="button" id="cancelEditBtn"
+                                class="btn btn-secondary" hidden>
+                            Cancel edit
+                        </button>
+                    </div>
+
+                </form>
+            </article>
+
+            <!-- Category Chart -->
+            <article class="panel">
+                <p class="eyebrow">INSIGHTS</p>
+                <h2>Spending by category</h2>
+                <p class="muted">Based on all your recorded expenses.</p>
+
+                <div id="categoryChart" class="category-chart">
+                    <p class="empty-state">
+                        Add expenses to see your spending breakdown.
+                    </p>
+                </div>
+            </article>
+
+        </section>
+
+        <!-- Expense History -->
+        <section class="panel history-section">
+
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">YOUR TRANSACTIONS</p>
+                    <h2>Expense history</h2>
+                    <p class="muted">View, filter, edit, or delete expenses.</p>
+                </div>
+
+                <button id="exportBtn" class="btn btn-secondary" type="button">
+                    Export CSV
+                </button>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+
+                <div class="form-group">
+                    <label for="filterCategory">Filter by category</label>
+                    <select id="filterCategory">
+                        <option value="all">All categories</option>
+                        <option value="Food">Food</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Education">Education</option>
+                        <option value="Health">Health</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="filterMonth">Filter by month</label>
+                    <input type="month" id="filterMonth">
+                </div>
+
+                <div class="form-group">
+                    <label for="sortExpenses">Sort expenses</label>
+                    <select id="sortExpenses">
+                        <option value="newest">Date: Newest first</option>
+                        <option value="oldest">Date: Oldest first</option>
+                        <option value="highest">Amount: Highest first</option>
+                        <option value="lowest">Amount: Lowest first</option>
+                    </select>
+                </div>
+
+                <button id="clearFiltersBtn" class="btn btn-secondary" type="button">
+                    Clear filters
+                </button>
+
+            </div>
+
+            <!-- Expense Table -->
+            <div class="table-wrapper">
+                <table class="expense-table">
+                    <thead>
+                        <tr>
+                            <th>Expense</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="expenseTableBody">
+                        <!-- JavaScript adds expenses here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <p id="emptyExpenses" class="empty-state">
+                No expenses found. Add your first expense!
+            </p>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>SpendWise © 2026 | Web Technology Expense Tracker Project</p>
+            <p>Built with HTML, CSS and JavaScript</p>
+        </div>
+    </footer>
+
+</body>
+</html>
+
