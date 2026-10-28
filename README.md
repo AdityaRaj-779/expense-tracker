@@ -6,6 +6,10 @@ A responsive personal expense tracker built using **HTML, CSS, and JavaScript**.
 
 **Website:** https://adityaraj-779.github.io/expense-tracker/
 
+## 📸 Project Screenshot
+
+![SpendWise Expense Tracker Dashboard](screenshot/spendwise-preview.png)
+
 ## ✨ Features
 
 - Add, edit, and delete expenses
